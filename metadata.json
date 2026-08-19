@@ -1,0 +1,6 @@
+{
+  "name": "Artisanal Studio - Custom Art & Portrait Platform",
+  "description": "Progressive Web App for commissioning custom handmade sketches, oil portraits, and fine art with real-time dynamic pricing, photo upload, artist proof approvals, and full management dashboard.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
