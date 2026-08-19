@@ -118,7 +118,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 bg-slate-50/80 p-1.5 rounded-2xl border border-slate-200">
+          <nav className="hidden lg:flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/80">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = active === item.id;
@@ -127,20 +127,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                   key={item.id}
                   id={`nav-link-${item.id}`}
                   onClick={() => handleNav(item.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
-                    item.highlight
-                      ? isActive
-                        ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-400'
-                        : 'bg-blue-50 text-blue-900 hover:bg-blue-100/80 border border-blue-200 font-semibold'
-                      : isActive
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                    isActive
                       ? 'bg-slate-900 text-white shadow-sm'
-                      : 'text-slate-700 hover:text-slate-950 hover:bg-slate-100'
+                      : 'text-slate-700 hover:text-slate-950 hover:bg-white/80'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${item.highlight && !isActive ? 'text-blue-600' : ''}`} />
-                  {item.label}
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-blue-400' : 'text-slate-500'}`} />
+                  <span>{item.label}</span>
                   {item.highlight && (
-                    <span className="bg-blue-600 text-white text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full">
+                    <span className="bg-blue-600 text-white text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full ml-0.5">
                       New
                     </span>
                   )}
