@@ -54,6 +54,8 @@ interface AdminDashboardProps {
   onOverrideFaceCount: (orderId: string, confirmedFaces: number, reason: string) => void;
   onDispatchShipping: (orderId: string, carrier: string, trackingNum: string) => void;
   onAddGalleryItem: (item: GalleryItem) => void;
+  onUpdateGalleryItem?: (item: GalleryItem) => void;
+  onDeleteGalleryItem?: (id: string) => void;
   onResetDemoData: () => void;
 }
 
@@ -69,6 +71,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onOverrideFaceCount,
   onDispatchShipping,
   onAddGalleryItem,
+  onUpdateGalleryItem,
+  onDeleteGalleryItem,
   onResetDemoData,
 }) => {
   const [activeAdminTab, setActiveAdminTab] = useState<'orders' | 'pricing' | 'gallery' | 'logs'>('orders');
@@ -99,6 +103,45 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [galleryIsDragOver, setGalleryIsDragOver] = useState(false);
   const [showUrlFallback, setShowUrlFallback] = useState(false);
   const galleryFileInputRef = useRef<HTMLInputElement>(null);
+
+  // Edit Gallery Item State
+  const [editingGalleryItem, setEditingGalleryItem] = useState<GalleryItem | null>(null);
+  const [editGalleryTitle, setEditGalleryTitle] = useState('');
+  const [editGalleryCategory, setEditGalleryCategory] = useState<ArtworkType>('pencil');
+  const [editGalleryPrice, setEditGalleryPrice] = useState(1499);
+  const [editGalleryImage, setEditGalleryImage] = useState('');
+  const [editGalleryDesc, setEditGalleryDesc] = useState('');
+
+  const handleOpenEditGalleryModal = (item: GalleryItem) => {
+    setEditingGalleryItem(item);
+    setEditGalleryTitle(item.title);
+    setEditGalleryCategory((item.categoryId as ArtworkType) || 'pencil');
+    setEditGalleryPrice(item.startingPrice);
+    setEditGalleryImage(item.afterImage);
+    setEditGalleryDesc(item.description);
+  };
+
+  const handleSaveEditedGalleryItem = () => {
+    if (!editingGalleryItem || !editGalleryTitle.trim() || !onUpdateGalleryItem) return;
+    const updated: GalleryItem = {
+      ...editingGalleryItem,
+      title: editGalleryTitle,
+      categoryId: editGalleryCategory,
+      categoryName: editGalleryCategory.replace(/_/g, ' ').toUpperCase(),
+      startingPrice: Number(editGalleryPrice),
+      afterImage: editGalleryImage,
+      images: [editGalleryImage],
+      description: editGalleryDesc,
+    };
+    onUpdateGalleryItem(updated);
+    setEditingGalleryItem(null);
+  };
+
+  const handleDeleteGallery = (id: string) => {
+    if (onDeleteGalleryItem) {
+      onDeleteGalleryItem(id);
+    }
+  };
 
   // Before & After Showcase Manager State
   const [comparisonPairs, setComparisonPairs] = useState<ComparisonPair[]>(() => StorageManager.getComparisonPairs());
@@ -164,11 +207,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   };
 
   const handleDeleteComparisonPair = (id: string) => {
-    if (confirm('Are you sure you want to remove this Before & After showcase pair?')) {
-      const updated = comparisonPairs.filter(p => p.id !== id);
-      setComparisonPairs(updated);
-      StorageManager.saveComparisonPairs(updated);
-    }
+    const updated = comparisonPairs.filter(p => p.id !== id);
+    setComparisonPairs(updated);
+    StorageManager.saveComparisonPairs(updated);
   };
 
   const handleGalleryImageUpload = (file: File) => {
@@ -768,12 +809,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             {comparisonPairs.map((pair) => (
               <div key={pair.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-3">
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-200 border border-slate-300">
-                    <img src={pair.originalImage} alt="Before" className="w-full h-full object-cover" />
+                  <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-900 border border-slate-300">
+                    <img src={pair.originalImage} alt="Before" className="w-full h-full object-contain" />
                     <span className="absolute bottom-1 left-1 bg-black/75 text-[9px] text-white px-1.5 py-0.5 rounded font-mono">Before</span>
                   </div>
-                  <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-200 border border-slate-300">
-                    <img src={pair.artImage} alt="After" className="w-full h-full object-cover" />
+                  <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-900 border border-slate-300">
+                    <img src={pair.artImage} alt="After" className="w-full h-full object-contain" />
                     <span className="absolute bottom-1 right-1 bg-emerald-800 text-[9px] text-white px-1.5 py-0.5 rounded font-mono">After</span>
                   </div>
                 </div>
@@ -966,17 +1007,36 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {galleryItems.map((item) => (
-              <div key={item.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 flex gap-3">
-                <img
-                  src={item.afterImage}
-                  alt={item.title}
-                  className="w-20 h-20 rounded-xl object-cover border border-slate-300 shrink-0"
-                />
-                <div className="flex-1 min-w-0">
-                  <div className="text-[10px] text-blue-700 font-bold uppercase">{item.categoryName}</div>
-                  <h4 className="font-serif font-bold text-slate-900 text-sm truncate">{item.title}</h4>
-                  <p className="text-[11px] text-slate-500 mt-0.5">Artist: {item.artistName}</p>
-                  <div className="font-mono text-xs font-bold text-slate-900 mt-1">Starting: ₹{item.startingPrice}</div>
+              <div key={item.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 flex flex-col justify-between space-y-3">
+                <div className="flex gap-3">
+                  <img
+                    src={item.afterImage}
+                    alt={item.title}
+                    className="w-20 h-20 rounded-xl object-cover border border-slate-300 shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[10px] text-blue-700 font-bold uppercase">{item.categoryName}</div>
+                    <h4 className="font-serif font-bold text-slate-900 text-sm truncate">{item.title}</h4>
+                    <p className="text-[11px] text-slate-500 mt-0.5">Artist: {item.artistName}</p>
+                    <div className="font-mono text-xs font-bold text-slate-900 mt-1">Starting: ₹{item.startingPrice}</div>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-slate-200 flex items-center justify-end gap-2">
+                  <button
+                    onClick={() => handleOpenEditGalleryModal(item)}
+                    className="px-3 py-1.5 rounded-xl bg-white hover:bg-blue-50 text-blue-600 font-bold text-xs border border-slate-200 flex items-center gap-1 transition-colors"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    onClick={() => handleDeleteGallery(item.id)}
+                    className="px-3 py-1.5 rounded-xl bg-white hover:bg-rose-50 text-rose-600 font-bold text-xs border border-slate-200 flex items-center gap-1 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete</span>
+                  </button>
                 </div>
               </div>
             ))}
@@ -1249,6 +1309,107 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
               >
                 Add Artwork
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Gallery Item Modal */}
+      {editingGalleryItem && (
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div 
+            className="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full shadow-2xl border border-slate-200 space-y-4 animate-fadeIn my-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
+                  <Edit className="w-4 h-4" />
+                </div>
+                <h3 className="font-serif font-bold text-slate-900 text-lg">Edit Portfolio Artwork</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingGalleryItem(null)}
+                className="w-8 h-8 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Title</label>
+              <input
+                type="text"
+                value={editGalleryTitle}
+                onChange={(e) => setEditGalleryTitle(e.target.value)}
+                className="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none font-medium"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Medium</label>
+                <select
+                  value={editGalleryCategory}
+                  onChange={(e) => setEditGalleryCategory(e.target.value as ArtworkType)}
+                  className="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none font-medium"
+                >
+                  <option value="pencil">Pencil Sketch</option>
+                  <option value="charcoal">Charcoal</option>
+                  <option value="oil_canvas">Oil on Canvas</option>
+                  <option value="watercolor">Watercolor</option>
+                  <option value="color_pencil">Color Pencil</option>
+                  <option value="digital_portrait">Digital Portrait</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Starting Price (₹)</label>
+                <input
+                  type="number"
+                  value={editGalleryPrice}
+                  onChange={(e) => setEditGalleryPrice(Number(e.target.value))}
+                  className="w-full p-2.5 rounded-xl border border-slate-300 text-xs font-mono font-bold bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Artwork Image URL</label>
+              <input
+                type="text"
+                value={editGalleryImage}
+                onChange={(e) => setEditGalleryImage(e.target.value)}
+                className="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-slate-700 block mb-1">Description</label>
+              <textarea
+                rows={2}
+                value={editGalleryDesc}
+                onChange={(e) => setEditGalleryDesc(e.target.value)}
+                className="w-full p-2.5 rounded-xl border border-slate-300 text-xs bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none font-medium"
+              />
+            </div>
+
+            <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setEditingGalleryItem(null)}
+                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveEditedGalleryItem}
+                className="px-5 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-colors shadow-sm"
+              >
+                Save Changes
               </button>
             </div>
           </div>

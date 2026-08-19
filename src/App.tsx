@@ -423,6 +423,8 @@ export function App() {
           <GalleryView
             items={galleryItems}
             onCommissionStyle={handleStartCommissionFromStyle}
+            currentRole={currentRole}
+            onNavigateToAdmin={() => setCurrentTab('admin')}
           />
         )}
 
@@ -473,6 +475,14 @@ export function App() {
             onOverrideFaceCount={handleOverrideFaces}
             onDispatchShipping={handleDispatchShipping}
             onAddGalleryItem={handleAddGalleryItem}
+            onUpdateGalleryItem={(updatedItem) => {
+              const updated = galleryItems.map(i => i.id === updatedItem.id ? updatedItem : i);
+              handleSaveGallery(updated);
+            }}
+            onDeleteGalleryItem={(id) => {
+              const updated = galleryItems.filter(i => i.id !== id);
+              handleSaveGallery(updated);
+            }}
             onResetDemoData={handleResetData}
           />
         )}

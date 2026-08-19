@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, Palette, Star, ArrowUpDown, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { Search, Filter, Palette, Star, ArrowUpDown, Sparkles, Image as ImageIcon, Sliders } from 'lucide-react';
 import { GalleryItem, ArtworkType } from '../../types';
 import { ArtworkDetailModal } from './ArtworkDetailModal';
 
@@ -8,6 +8,8 @@ interface GalleryViewProps {
   galleryItems?: GalleryItem[];
   onCommissionStyle?: (style: ArtworkType) => void;
   onSelectForCommission?: (item: GalleryItem) => void;
+  currentRole?: string;
+  onNavigateToAdmin?: () => void;
 }
 
 export const GalleryView: React.FC<GalleryViewProps> = ({
@@ -15,6 +17,8 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
   galleryItems,
   onCommissionStyle,
   onSelectForCommission,
+  currentRole,
+  onNavigateToAdmin,
 }) => {
   const allItems = items || galleryItems || [];
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -71,6 +75,27 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
   return (
     <div className="py-8 w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 animate-fadeIn">
       
+      {/* Admin Quick Banner */}
+      {(currentRole === 'admin' || currentRole === 'operations') && (
+        <div className="mb-8 p-4 rounded-2xl bg-blue-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-800 flex items-center justify-center text-blue-300">
+              <Sliders className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-bold text-sm">Admin Gallery CMS Mode Active</h3>
+              <p className="text-xs text-blue-200">You can manage portfolio artworks, add new items, or update starting rates.</p>
+            </div>
+          </div>
+          <button
+            onClick={onNavigateToAdmin}
+            className="px-5 py-2.5 bg-white text-blue-900 rounded-xl text-xs font-bold hover:bg-blue-50 transition-colors shadow-sm"
+          >
+            Open Admin Gallery CMS
+          </button>
+        </div>
+      )}
+
       {/* Gallery Header */}
       <div className="text-center max-w-3xl mx-auto mb-10">
         <span className="text-blue-700 font-bold text-xs uppercase tracking-widest bg-blue-50 border border-blue-200/80 px-3.5 py-1.5 rounded-full">

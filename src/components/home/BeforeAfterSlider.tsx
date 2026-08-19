@@ -86,13 +86,13 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({ onStartCon
             onMouseLeave={() => setIsDragging(false)}
             onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}
-            className="relative h-[340px] sm:h-[480px] w-full rounded-xl overflow-hidden select-none cursor-ew-resize group"
+            className="relative h-[380px] sm:h-[520px] w-full rounded-xl overflow-hidden select-none cursor-ew-resize group bg-slate-900"
           >
             {/* Background: Final Handcrafted Artwork */}
             <img
               src={activePair.artImage}
               alt="Final Handcrafted Artwork"
-              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none"
             />
             
             {/* Top Badge for Art */}
@@ -109,7 +109,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({ onStartCon
               <img
                 src={activePair.originalImage}
                 alt="Original Customer Photo"
-                className="absolute inset-0 w-full h-full object-cover max-w-none"
+                className="absolute inset-0 w-full h-full object-contain max-w-none bg-slate-900"
                 style={{ width: containerRef.current?.clientWidth || '100%' }}
               />
               <div className="absolute inset-0 bg-black/10"></div>

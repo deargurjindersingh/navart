@@ -289,7 +289,22 @@ export const ArtistWorkspace: React.FC<ArtistWorkspaceProps> = ({
                 {/* Upload File Input */}
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-blue-200 hover:border-blue-500 bg-blue-50/40 p-6 rounded-2xl text-center cursor-pointer transition-all"
+                  onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                      const file = e.dataTransfer.files[0];
+                      if (file.type.startsWith('image/')) {
+                        const url = URL.createObjectURL(file);
+                        setCustomProofFile(url);
+                        setPreviewUploadUrl(url);
+                      } else {
+                        alert('Please drop a valid image file.');
+                      }
+                    }
+                  }}
+                  className="border-2 border-dashed border-blue-300 hover:border-blue-600 bg-blue-50/60 p-6 rounded-2xl text-center cursor-pointer transition-all hover:shadow-md"
                 >
                   <input
                     ref={fileInputRef}
@@ -299,10 +314,10 @@ export const ArtistWorkspace: React.FC<ArtistWorkspaceProps> = ({
                     className="hidden"
                   />
                   <Camera className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <div className="font-bold text-xs text-slate-800">
-                    {customProofFile ? 'Custom artwork file loaded! Click to replace' : 'Click to Upload Artwork Scan / Photo'}
+                  <div className="font-bold text-xs text-slate-900">
+                    {customProofFile ? 'Custom artwork uploaded successfully! Click or drop to replace' : 'Click or Drag & Drop Artwork Scan / Photo'}
                   </div>
-                  <p className="text-[10px] text-slate-500 mt-0.5">High-resolution scan (JPEG/PNG)</p>
+                  <p className="text-[10px] text-slate-500 mt-0.5">High-resolution scan (JPEG, PNG, WEBP)</p>
                 </div>
 
                 {/* Or select from quick studio sample renders */}
