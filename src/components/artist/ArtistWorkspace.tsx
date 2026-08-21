@@ -45,15 +45,15 @@ export const ArtistWorkspace: React.FC<ArtistWorkspaceProps> = ({
   const SAMPLE_ARTIST_PROOFS = [
     {
       title: 'Graphite Pencil Proof (Detailed Shading)',
-      url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1200&q=80',
+      url: 'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600',
     },
     {
       title: 'Oil Painting Impressionist Impasto',
-      url: 'https://images.unsplash.com/photo-1578925518470-4def7a0f08bb?auto=format&fit=crop&w=1200&q=80',
+      url: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
     },
     {
       title: 'Watercolor Wash (Luminous Pastel)',
-      url: 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=1200&q=80',
+      url: 'https://picsum.photos/seed/1544967082-d9d25d867d66/800/600',
     },
   ];
 
@@ -100,7 +100,7 @@ export const ArtistWorkspace: React.FC<ArtistWorkspaceProps> = ({
         <div className="flex items-center gap-3">
           <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-3">
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
+              src="https://picsum.photos/seed/1534528741775-53994a69daeb/800/600"
               alt="Elena"
               className="w-10 h-10 rounded-full object-cover border border-slate-300"
             />
@@ -319,6 +319,21 @@ export const ArtistWorkspace: React.FC<ArtistWorkspaceProps> = ({
                   </div>
                   <p className="text-[10px] text-slate-500 mt-0.5">High-resolution scan (JPEG, PNG, WEBP)</p>
                 </div>
+
+                {/* Live Preview Display of Uploaded/Selected Proof */}
+                {(customProofFile || previewUploadUrl) && (
+                  <div className="relative rounded-2xl overflow-hidden bg-slate-950 border border-blue-300 p-3 flex flex-col items-center">
+                    <div className="text-[11px] font-bold text-blue-300 mb-2 flex items-center gap-1.5 self-start">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Ready to Submit Proof Preview:</span>
+                    </div>
+                    <img
+                      src={customProofFile || previewUploadUrl}
+                      alt="Uploaded Proof Preview"
+                      className="max-h-64 rounded-xl object-contain shadow-md"
+                    />
+                  </div>
+                )}
 
                 {/* Or select from quick studio sample renders */}
                 <div>

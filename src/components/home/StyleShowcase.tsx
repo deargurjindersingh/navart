@@ -97,17 +97,15 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
           </div>
         )}
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div>
-            <span className="text-blue-700 font-bold text-xs uppercase tracking-widest bg-blue-50 border border-blue-200/80 px-3.5 py-1.5 rounded-full">
-              Artistic Mediums
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mt-3">
-              Shop by Medium & Style
-            </h2>
-          </div>
-          <p className="text-slate-600 text-sm max-w-md">
-            Every medium is handcrafted by an artist with at least 8+ years dedicated expertise in that specific technique.
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="text-violet-700 font-bold text-xs uppercase tracking-widest bg-violet-50 border border-violet-200 px-4 py-1.5 rounded-full inline-block mb-3">
+            Artistic Mediums
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
+            Choose Your Art Style
+          </h2>
+          <p className="text-slate-600 text-base mt-3">
+            From classic to contemporary, find the perfect style for your memories.
           </p>
         </div>
 
@@ -136,11 +134,11 @@ export const StyleShowcase: React.FC<StyleShowcaseProps> = ({
                   </div>
                 )}
 
-                <div className="relative h-56 w-full overflow-hidden bg-slate-900">
+                <div className="relative h-64 w-full overflow-hidden bg-slate-50 flex items-center justify-center">
                   <img
                     src={style.image}
                     alt={style.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                   />
                   
                   {/* Photo Replacement Quick Button for Admin */}

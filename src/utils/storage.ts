@@ -1,4 +1,4 @@
-import { Order, GalleryItem, DynamicFormField, PricingConfig, UserRole, Coupon, ArtAuditLog, UserProfile, MediumStyleItem, ComparisonPair } from '../types';
+import { Order, GalleryItem, DynamicFormField, PricingConfig, UserRole, Coupon, ArtAuditLog, UserProfile, MediumStyleItem, ComparisonPair, MediaAsset, HeroSlide, LMSCourse, StudentEnrollment } from '../types';
 import { 
   DEFAULT_PRICING_CONFIG, 
   INITIAL_GALLERY_ITEMS, 
@@ -6,7 +6,11 @@ import {
   INITIAL_ORDERS, 
   INITIAL_COUPONS,
   INITIAL_MEDIUM_STYLES,
-  INITIAL_COMPARISON_PAIRS 
+  INITIAL_COMPARISON_PAIRS,
+  INITIAL_MEDIA_ASSETS,
+  INITIAL_HERO_SLIDES,
+  INITIAL_LMS_COURSES,
+  INITIAL_STUDENT_ENROLLMENTS
 } from '../data/initialData';
 
 export interface StoredUserAccount extends UserProfile {
@@ -21,7 +25,7 @@ export const INITIAL_USER_ACCOUNTS: StoredUserAccount[] = [
     email: 'priya.sharma@example.com',
     phone: '+91 98765 43210',
     role: 'customer',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    avatar: 'https://picsum.photos/seed/1534528741775-53994a69daeb/800/600',
     savedAddresses: [
       {
         street: '42 Indiranagar, 12th Main Road',
@@ -41,7 +45,7 @@ export const INITIAL_USER_ACCOUNTS: StoredUserAccount[] = [
     email: 'rahul.verma@example.com',
     phone: '+91 98123 45678',
     role: 'customer',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+    avatar: 'https://picsum.photos/seed/1507003211169-0a1dd7228f2d/800/600',
     savedAddresses: [
       {
         street: 'Flat 402, Sea Breeze Apts, Bandra West',
@@ -60,7 +64,7 @@ export const INITIAL_USER_ACCOUNTS: StoredUserAccount[] = [
     name: 'Rajesh Nair',
     email: 'rajesh.art@artisanalstudio.com',
     role: 'artist',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+    avatar: 'https://picsum.photos/seed/1500648767791-00dcc994a43e/800/600',
     passwordHash: 'artist123',
     createdAt: '2024-05-10T09:00:00Z',
   },
@@ -70,7 +74,7 @@ export const INITIAL_USER_ACCOUNTS: StoredUserAccount[] = [
     name: 'Vikram Mehta (Studio Director)',
     email: 'director@artisanalstudio.com',
     role: 'admin',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
+    avatar: 'https://picsum.photos/seed/1472099645785-5658abf4ff4e/800/600',
     passwordHash: 'admin123',
     createdAt: '2024-01-01T08:00:00Z',
   }
@@ -88,9 +92,187 @@ const STORAGE_KEYS = {
   CURRENT_USER: 'artisanal_current_user_v1',
   STYLES: 'artisanal_styles_v1',
   COMPARISON_PAIRS: 'artisanal_comparison_pairs_v1',
+  MEDIA_ASSETS: 'artisanal_media_assets_v1',
+  HERO_SLIDES: 'artisanal_hero_slides_v1',
+  LMS_COURSES: 'artisanal_lms_courses_v1',
+  STUDENT_ENROLLMENTS: 'artisanal_student_enrollments_v1',
 };
 
 export const StorageManager = {
+  // --- LMS COURSES ---
+  getLMSCourses(): LMSCourse[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.LMS_COURSES);
+      if (!data) {
+        localStorage.setItem(STORAGE_KEYS.LMS_COURSES, JSON.stringify(INITIAL_LMS_COURSES));
+        return INITIAL_LMS_COURSES;
+      }
+      return JSON.parse(data);
+    } catch {
+      return INITIAL_LMS_COURSES;
+    }
+  },
+
+  saveLMSCourses(courses: LMSCourse[]): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.LMS_COURSES, JSON.stringify(courses));
+    } catch (e) {
+      console.error('Failed to save LMS courses', e);
+    }
+  },
+
+  saveLMSCourse(course: LMSCourse): void {
+    const courses = this.getLMSCourses();
+    const index = courses.findIndex(c => c.id === course.id);
+    if (index >= 0) {
+      courses[index] = course;
+    } else {
+      courses.unshift(course);
+    }
+    this.saveLMSCourses(courses);
+    this.addAuditLog('admin', 'Admin User', 'admin', `Saved LMS course: ${course.title}`, 'order', course.id);
+  },
+
+  deleteLMSCourse(courseId: string): void {
+    const courses = this.getLMSCourses().filter(c => c.id !== courseId);
+    this.saveLMSCourses(courses);
+    this.addAuditLog('admin', 'Admin User', 'admin', `Deleted LMS course ID ${courseId}`, 'order', courseId);
+  },
+
+  // --- STUDENT ENROLLMENTS & LEDGERS ---
+  getStudentEnrollments(): StudentEnrollment[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.STUDENT_ENROLLMENTS);
+      if (!data) {
+        localStorage.setItem(STORAGE_KEYS.STUDENT_ENROLLMENTS, JSON.stringify(INITIAL_STUDENT_ENROLLMENTS));
+        return INITIAL_STUDENT_ENROLLMENTS;
+      }
+      return JSON.parse(data);
+    } catch {
+      return INITIAL_STUDENT_ENROLLMENTS;
+    }
+  },
+
+  saveStudentEnrollments(enrollments: StudentEnrollment[]): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.STUDENT_ENROLLMENTS, JSON.stringify(enrollments));
+    } catch (e) {
+      console.error('Failed to save student enrollments', e);
+    }
+  },
+
+  enrollStudent(student: UserProfile, course: LMSCourse): StudentEnrollment {
+    const enrollments = this.getStudentEnrollments();
+    const existing = enrollments.find(e => e.studentId === student.id && e.courseId === course.id);
+    if (existing) return existing;
+
+    const newEnrollment: StudentEnrollment = {
+      id: `enr-${Date.now()}`,
+      studentId: student.id,
+      studentName: student.name,
+      studentEmail: student.email,
+      courseId: course.id,
+      courseTitle: course.title,
+      enrolledAt: new Date().toISOString(),
+      progressPercent: 0,
+      feeTotal: course.price,
+      feePaid: course.price, // Default paid instantly on enrollment for smooth simulation
+      feeStatus: 'Paid',
+      ledger: [
+        {
+          id: `led-${Date.now()}-1`,
+          date: new Date().toISOString().split('T')[0],
+          description: `Course Enrolled: ${course.title}`,
+          debit: course.price,
+          credit: 0,
+          balance: course.price,
+          status: 'Pending'
+        },
+        {
+          id: `led-${Date.now()}-2`,
+          date: new Date().toISOString().split('T')[0],
+          description: `Fee Payment Received (Online/UPI)`,
+          debit: 0,
+          credit: course.price,
+          balance: 0,
+          status: 'Paid'
+        }
+      ]
+    };
+
+    const updated = [newEnrollment, ...enrollments];
+    this.saveStudentEnrollments(updated);
+    this.addAuditLog(student.id, student.name, student.role, `Enrolled in course: ${course.title}`, 'order', newEnrollment.id);
+    return newEnrollment;
+  },
+
+  recordStudentPayment(enrollmentId: string, amount: number, note: string): void {
+    const enrollments = this.getStudentEnrollments();
+    const updated = enrollments.map(enr => {
+      if (enr.id === enrollmentId) {
+        const newPaid = enr.feePaid + amount;
+        const balanceRemaining = Math.max(0, enr.feeTotal - newPaid);
+        const newStatus = balanceRemaining === 0 ? 'Paid' : (newPaid > 0 ? 'Partial' : 'Pending');
+        const newEntry = {
+          id: `led-${Date.now()}`,
+          date: new Date().toISOString().split('T')[0],
+          description: note || 'Fee Payment Recorded',
+          debit: 0,
+          credit: amount,
+          balance: balanceRemaining,
+          status: 'Paid' as const
+        };
+        return {
+          ...enr,
+          feePaid: newPaid,
+          feeStatus: newStatus as any,
+          ledger: [newEntry, ...enr.ledger]
+        };
+      }
+      return enr;
+    });
+    this.saveStudentEnrollments(updated);
+  },
+  // --- HERO SLIDES ---
+  getHeroSlides(): HeroSlide[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.HERO_SLIDES);
+      if (!data) {
+        localStorage.setItem(STORAGE_KEYS.HERO_SLIDES, JSON.stringify(INITIAL_HERO_SLIDES));
+        return INITIAL_HERO_SLIDES;
+      }
+      return JSON.parse(data);
+    } catch {
+      return INITIAL_HERO_SLIDES;
+    }
+  },
+
+  saveHeroSlides(slides: HeroSlide[]): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.HERO_SLIDES, JSON.stringify(slides));
+    } catch (e) {
+      console.error('Failed to save hero slides', e);
+    }
+  },
+
+  saveHeroSlide(slide: HeroSlide): void {
+    const slides = this.getHeroSlides();
+    const index = slides.findIndex(s => s.id === slide.id);
+    if (index >= 0) {
+      slides[index] = slide;
+    } else {
+      slides.unshift(slide);
+    }
+    this.saveHeroSlides(slides);
+    this.addAuditLog('admin', 'Admin User', 'admin', `Saved hero slider slide: ${slide.title}`, 'order', slide.id);
+  },
+
+  deleteHeroSlide(slideId: string): void {
+    const slides = this.getHeroSlides().filter(s => s.id !== slideId);
+    this.saveHeroSlides(slides);
+    this.addAuditLog('admin', 'Admin User', 'admin', `Deleted hero slider slide ID ${slideId}`, 'order', slideId);
+  },
+
   // --- COMPARISON PAIRS (Before & After) ---
   getComparisonPairs(): ComparisonPair[] {
     try {
@@ -192,7 +374,7 @@ export const StorageManager = {
       email: payload.email.trim().toLowerCase(),
       phone: payload.phone?.trim() || '',
       role: payload.role || 'customer',
-      avatar: `https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80`,
+      avatar: 'https://picsum.photos/seed/defaultavatar/200/200',
       savedAddresses: payload.address ? [payload.address] : [],
       passwordHash: payload.password,
       createdAt: new Date().toISOString(),
@@ -200,13 +382,75 @@ export const StorageManager = {
 
     users.push(newUser);
     this.saveUsers(users);
-    
-    const { passwordHash, ...profile } = newUser;
-    this.setCurrentUser(profile);
-    this.setActiveRole(profile.role);
-    this.addAuditLog(profile.id, profile.name, profile.role, 'User registered account: ' + profile.email, 'order', profile.id);
+
+    const profile: UserProfile = {
+      id: newUser.id,
+      username: newUser.username,
+      name: newUser.name,
+      email: newUser.email,
+      phone: newUser.phone,
+      role: newUser.role,
+      avatar: newUser.avatar,
+      savedAddresses: newUser.savedAddresses,
+      createdAt: newUser.createdAt,
+    };
+
+    this.addAuditLog('system', newUser.name, 'customer', `User registered account: ${profile.email}`, 'order', profile.id);
 
     return { success: true, user: profile };
+  },
+
+  updateUserRole(userId: string, newRole: UserRole): boolean {
+    const users = this.getUsers();
+    const user = users.find(u => u.id === userId);
+    if (!user) return false;
+    user.role = newRole;
+    this.saveUsers(users);
+    this.addAuditLog('admin', 'Admin User', 'admin', `Updated user ${user.username} role to ${newRole}`, 'order', userId);
+    return true;
+  },
+
+  resetUserPassword(userId: string, newPassword: string): boolean {
+    const users = this.getUsers();
+    const user = users.find(u => u.id === userId);
+    if (!user) return false;
+    user.passwordHash = newPassword;
+    this.saveUsers(users);
+    this.addAuditLog('admin', 'Admin User', 'admin', `Reset password for user ${user.username}`, 'order', userId);
+    return true;
+  },
+
+  createUserByAdmin(payload: {
+    username: string;
+    name: string;
+    email: string;
+    password: string;
+    role: UserRole;
+    phone?: string;
+  }): { success: boolean; error?: string } {
+    const users = this.getUsers();
+    const existing = users.find(
+      u => u.username.toLowerCase() === payload.username.toLowerCase() || 
+           u.email.toLowerCase() === payload.email.toLowerCase()
+    );
+    if (existing) {
+      return { success: false, error: 'Username or email already exists.' };
+    }
+    const newUser: StoredUserAccount = {
+      id: 'usr-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+      username: payload.username.trim().toLowerCase(),
+      name: payload.name.trim(),
+      email: payload.email.trim().toLowerCase(),
+      phone: payload.phone?.trim() || '',
+      role: payload.role,
+      avatar: 'https://picsum.photos/seed/1534528741775-53994a69daeb/800/600',
+      passwordHash: payload.password,
+      createdAt: new Date().toISOString(),
+    };
+    users.push(newUser);
+    this.saveUsers(users);
+    this.addAuditLog('admin', 'Admin User', 'admin', `Created new user ${newUser.username} with role ${newUser.role}`, 'order', newUser.id);
+    return { success: true };
   },
 
   authenticateUser(identifier: string, password: string): { success: boolean; error?: string; user?: UserProfile } {
@@ -453,6 +697,74 @@ export const StorageManager = {
     }
   },
 
+  // --- MEDIA ASSETS (Folder Storage) ---
+  getMediaAssets(): MediaAsset[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.MEDIA_ASSETS);
+      if (!data) {
+        localStorage.setItem(STORAGE_KEYS.MEDIA_ASSETS, JSON.stringify(INITIAL_MEDIA_ASSETS));
+        return INITIAL_MEDIA_ASSETS;
+      }
+      return JSON.parse(data);
+    } catch {
+      return INITIAL_MEDIA_ASSETS;
+    }
+  },
+
+  saveMediaAssets(assets: MediaAsset[]): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.MEDIA_ASSETS, JSON.stringify(assets));
+    } catch (e) {
+      console.error('Failed to save media assets', e);
+    }
+  },
+
+  addMediaAsset(asset: MediaAsset): void {
+    const assets = this.getMediaAssets();
+    const updated = [asset, ...assets];
+    this.saveMediaAssets(updated);
+  },
+
+  deleteMediaAsset(id: string): void {
+    const assets = this.getMediaAssets();
+    const updated = assets.filter(a => a.id !== id);
+    this.saveMediaAssets(updated);
+  },
+
+  // --- COMPLETE STUDIO EXPORT & IMPORT (Permanent Backup Across Devices & Re-publish) ---
+  exportCompleteCatalogJSON(): string {
+    const backup = {
+      version: '1.0',
+      exportedAt: new Date().toISOString(),
+      orders: this.getOrders(),
+      gallery: this.getGalleryItems(),
+      styles: this.getStyles(),
+      comparisonPairs: this.getComparisonPairs(),
+      pricing: this.getPricingConfig(),
+      mediaAssets: this.getMediaAssets(),
+      coupons: this.getCoupons(),
+      formFields: this.getFormFields(),
+    };
+    return JSON.stringify(backup, null, 2);
+  },
+
+  importCompleteCatalogJSON(jsonString: string): { success: boolean; message: string } {
+    try {
+      const data = JSON.parse(jsonString);
+      if (data.orders) this.saveOrders(data.orders);
+      if (data.gallery) this.saveGalleryItems(data.gallery);
+      if (data.styles) this.saveStyles(data.styles);
+      if (data.comparisonPairs) this.saveComparisonPairs(data.comparisonPairs);
+      if (data.pricing) this.savePricingConfig(data.pricing);
+      if (data.mediaAssets) this.saveMediaAssets(data.mediaAssets);
+      if (data.coupons) this.saveCoupons(data.coupons);
+      if (data.formFields) this.saveFormFields(data.formFields);
+      return { success: true, message: 'Studio data and folder assets restored successfully!' };
+    } catch (e: any) {
+      return { success: false, message: 'Invalid JSON format: ' + (e.message || 'Parse error') };
+    }
+  },
+
   resetAllToDefault(): void {
     localStorage.removeItem(STORAGE_KEYS.ORDERS);
     localStorage.removeItem(STORAGE_KEYS.GALLERY);
@@ -462,6 +774,9 @@ export const StorageManager = {
     localStorage.removeItem(STORAGE_KEYS.AUDIT_LOGS);
     localStorage.removeItem(STORAGE_KEYS.USERS);
     localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+    localStorage.removeItem(STORAGE_KEYS.STYLES);
+    localStorage.removeItem(STORAGE_KEYS.COMPARISON_PAIRS);
+    localStorage.removeItem(STORAGE_KEYS.MEDIA_ASSETS);
     window.location.reload();
   }
 };

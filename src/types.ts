@@ -359,3 +359,79 @@ export interface ComparisonPair {
   faceCount: string;
 }
 
+export interface HeroSlide {
+  id: string;
+  title: string;
+  artist: string;
+  medium: string;
+  paintedImage: string;
+  originalPhoto: string;
+  originalLabel: string;
+}
+
+export interface LMSLesson {
+  id: string;
+  title: string;
+  duration: string;
+  videoUrl?: string;
+  videoFileName?: string;
+  pdfUrl?: string;
+  pdfFileName?: string;
+  description?: string;
+  completed?: boolean;
+}
+
+export interface LMSCourse {
+  id: string;
+  title: string;
+  description: string;
+  instructor: string;
+  category: string;
+  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
+  duration: string;
+  price: number;
+  image: string;
+  imageFileName?: string;
+  lessons: LMSLesson[];
+}
+
+export interface StudentLedgerEntry {
+  id: string;
+  date: string;
+  description: string;
+  debit: number;
+  credit: number;
+  balance: number;
+  status: 'Paid' | 'Pending' | 'Partial';
+}
+
+export interface StudentEnrollment {
+  id: string;
+  studentId: string;
+  studentName: string;
+  studentEmail: string;
+  courseId: string;
+  courseTitle: string;
+  enrolledAt: string;
+  progressPercent: number;
+  feeTotal: number;
+  feePaid: number;
+  feeStatus: 'Paid' | 'Pending' | 'Partial';
+  ledger: StudentLedgerEntry[];
+}
+
+export type MediaFolderType = 'gallery' | 'showcase' | 'styles' | 'banners' | 'artists' | 'reviews' | 'proofs' | 'general';
+
+
+export interface MediaAsset {
+  id: string;
+  name: string;
+  url: string;
+  folder: MediaFolderType | string;
+  fileSize?: string;
+  dimensions?: string;
+  uploadedAt: string;
+  tags?: string[];
+  description?: string;
+}
+

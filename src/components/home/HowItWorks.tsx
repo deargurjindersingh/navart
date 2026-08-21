@@ -55,14 +55,14 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onStartConfiguring, onSt
       <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-blue-700 font-bold text-xs uppercase tracking-widest bg-blue-50 border border-blue-200/80 px-3.5 py-1.5 rounded-full">
-            Simple 5-Step Craft Journey
+          <span className="text-violet-700 font-bold text-xs uppercase tracking-widest bg-violet-50 border border-violet-200 px-4 py-1.5 rounded-full inline-block mb-3">
+            Simple & Transparent
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mt-3">
-            How Your Artwork Comes to Life
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
+            How It Works
           </h2>
           <p className="text-slate-600 text-base sm:text-lg mt-3">
-            From raw photo to heirloom masterpiece in 5 simple, transparent steps.
+            Simple steps to turn your photo into a masterpiece
           </p>
         </div>
 

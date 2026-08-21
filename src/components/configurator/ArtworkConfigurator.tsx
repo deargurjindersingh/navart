@@ -46,7 +46,7 @@ interface ArtworkConfiguratorProps {
 const SAMPLE_TEST_PHOTOS = [
   {
     name: 'Family Portrait (2 Faces)',
-    url: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80',
+    url: 'https://picsum.photos/seed/1511895426328-dc8714191300/800/600',
     detectedFaces: 2,
     boxes: [
       { id: 'b1', x: 28, y: 15, width: 28, height: 35, confidence: 0.98, label: 'Subject 1 (Person)' },
@@ -55,7 +55,7 @@ const SAMPLE_TEST_PHOTOS = [
   },
   {
     name: 'Solo Smile (1 Face)',
-    url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+    url: 'https://picsum.photos/seed/1534528741775-53994a69daeb/800/600',
     detectedFaces: 1,
     boxes: [
       { id: 'b1', x: 30, y: 18, width: 42, height: 48, confidence: 0.99, label: 'Subject 1 (Face)' },
@@ -63,7 +63,7 @@ const SAMPLE_TEST_PHOTOS = [
   },
   {
     name: 'Cherished Pet (1 Subject)',
-    url: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+    url: 'https://picsum.photos/seed/1552053831-71594a27632d/800/600',
     detectedFaces: 1,
     boxes: [
       { id: 'b1', x: 25, y: 15, width: 50, height: 55, confidence: 0.97, label: 'Subject 1 (Golden Retriever)' },

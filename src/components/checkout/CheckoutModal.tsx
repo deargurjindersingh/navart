@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, 
   ShieldCheck, 
@@ -12,7 +12,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Order, OrderConfig, PricingBreakdown } from '../../types';
+import { Order, OrderConfig, PricingBreakdown, UserProfile } from '../../types';
 import { CartItem } from '../cart/CartDrawer';
 
 interface CheckoutModalProps {
@@ -20,6 +20,7 @@ interface CheckoutModalProps {
   onClose: () => void;
   cartItems: CartItem[];
   onOrderPlaced: (newOrders: Order[]) => void;
+  currentUser?: UserProfile | null;
 }
 
 export const CheckoutModal: React.FC<CheckoutModalProps> = ({
@@ -27,10 +28,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   onClose,
   cartItems,
   onOrderPlaced,
+  currentUser,
 }) => {
-  const [customerName, setCustomerName] = useState('Priya Mukherjee');
-  const [customerEmail, setCustomerEmail] = useState('priya.m@example.com');
-  const [customerPhone, setCustomerPhone] = useState('+91 98765 43210');
+  const [customerName, setCustomerName] = useState(currentUser?.name || 'Priya Mukherjee');
+  const [customerEmail, setCustomerEmail] = useState(currentUser?.email || 'priya.m@example.com');
+  const [customerPhone, setCustomerPhone] = useState(currentUser?.phone || '+91 98765 43210');
   const [street, setStreet] = useState('42 Lotus Boulevard, Apt 5B');
   const [city, setCity] = useState('Bengaluru');
   const [state, setState] = useState('Karnataka');
@@ -40,6 +42,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.name) setCustomerName(currentUser.name);
+      if (currentUser.email) setCustomerEmail(currentUser.email);
+      if (currentUser.phone) setCustomerPhone(currentUser.phone);
+    }
+  }, [currentUser, isOpen]);
 
   if (!isOpen) return null;
 

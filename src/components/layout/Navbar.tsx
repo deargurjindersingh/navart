@@ -16,7 +16,8 @@ import {
   User,
   LogOut,
   LogIn,
-  UserPlus
+  UserPlus,
+  GraduationCap
 } from 'lucide-react';
 import { UserRole, UserProfile } from '../../types';
 
@@ -79,6 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'home', label: 'Home', icon: Sparkles },
     { id: 'gallery', label: 'Gallery & Portfolio', icon: Compass },
     { id: 'configurator', label: 'Turn Photo Into Art', icon: Palette, highlight: true },
+    { id: 'lms', label: 'I want to Learn', icon: GraduationCap },
     { id: 'portal', label: 'My Orders & Proofs', icon: ShieldCheck },
   ];
 
@@ -109,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <div>
               <span className="block font-serif text-2xl font-bold  text-slate-900 group-hover:text-blue-600 transition-colors">
-                NAVKAMAL  ART  STUDIO
+                NAVI ART STUDIO
               </span>
               <span className="block text-[10px] tracking-widest uppercase font-semibold text-slate-500 -mt-1">
                 Where Memories Become Art

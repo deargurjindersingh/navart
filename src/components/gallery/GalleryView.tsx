@@ -206,12 +206,12 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
               {/* Artwork Photo & Badges */}
               <div 
                 onClick={() => setActiveModalItem(item)}
-                className="relative h-72 w-full overflow-hidden bg-slate-950 cursor-pointer"
+                className="relative h-80 w-full overflow-hidden bg-slate-50 cursor-pointer flex items-center justify-center"
               >
                 <img
                   src={item.afterImage}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                 />
 
                 {/* Top Badge: Category */}

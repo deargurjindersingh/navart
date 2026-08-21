@@ -55,19 +55,10 @@ export const AdminEditStyleModal: React.FC<AdminEditStyleModalProps> = ({
       alert('Please upload a valid image file (JPEG, PNG, WEBP).');
       return;
     }
-    setUploadLoading(true);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        setImageUrl(e.target.result as string);
-        setUploadLoading(false);
-      }
-    };
-    reader.onerror = () => {
-      setUploadLoading(false);
-      alert('Failed to read the image file.');
-    };
-    reader.readAsDataURL(file);
+    const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_').toLowerCase();
+    const folderPath = `/images/styles/${cleanName}`;
+    setImageUrl(folderPath);
+    setUploadLoading(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -112,12 +103,12 @@ export const AdminEditStyleModal: React.FC<AdminEditStyleModalProps> = ({
 
   // Sample quick photo presets
   const samplePresets: { label: string; url: string }[] = [
-    { label: 'Pencil Studio', url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80' },
-    { label: 'Charcoal Noir', url: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80' },
-    { label: 'Watercolor Splash', url: 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=800&q=80' },
-    { label: 'Oil Canvas Impasto', url: 'https://images.unsplash.com/photo-1578925518470-4def7a0f08bb?auto=format&fit=crop&w=800&q=80' },
-    { label: 'Color Pencil Fine', url: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=800&q=80' },
-    { label: 'Digital Archival', url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80' },
+    { label: 'Pencil Studio', url: 'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600' },
+    { label: 'Charcoal Noir', url: 'https://picsum.photos/seed/1541701494587-cb58502866ab/800/600' },
+    { label: 'Watercolor Splash', url: 'https://picsum.photos/seed/1544967082-d9d25d867d66/800/600' },
+    { label: 'Oil Canvas Impasto', url: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600' },
+    { label: 'Color Pencil Fine', url: 'https://picsum.photos/seed/1578301978693-85fa9c0320b9/800/600' },
+    { label: 'Digital Archival', url: 'https://picsum.photos/seed/1579783900882-c0d3dad7b119/800/600' },
   ];
 
   return (

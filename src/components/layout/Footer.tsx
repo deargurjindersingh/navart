@@ -75,7 +75,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onNavigate, onRole
                 <Palette className="w-5 h-5" />
               </div>
               <span className="font-serif text-2xl font-bold text-white tracking-wide">
-                ARTISANAL STUDIO
+                NAVI ART STUDIO
               </span>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">

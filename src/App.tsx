@@ -11,6 +11,7 @@ import { ArtworkConfigurator } from './components/configurator/ArtworkConfigurat
 import { CustomerPortal } from './components/portal/CustomerPortal';
 import { ArtistWorkspace } from './components/artist/ArtistWorkspace';
 import { AdminDashboard } from './components/admin/AdminDashboard';
+import { StudentLMSView } from './components/lms/StudentLMSView';
 import { CartDrawer, CartItem } from './components/cart/CartDrawer';
 import { CheckoutModal } from './components/checkout/CheckoutModal';
 import { AuthModal } from './components/auth/AuthModal';
@@ -32,7 +33,7 @@ import { DEFAULT_PRICING_CONFIG, INITIAL_ORDERS, INITIAL_GALLERY_ITEMS } from '.
 
 export function App() {
   // Navigation State
-  const [currentTab, setCurrentTab] = useState<'home' | 'gallery' | 'configurator' | 'portal' | 'artist' | 'admin'>('home');
+  const [currentTab, setCurrentTab] = useState<'home' | 'gallery' | 'configurator' | 'lms' | 'portal' | 'artist' | 'admin'>('home');
   const [currentRole, setCurrentRole] = useState<UserRole>('customer');
 
   // Pre-selected style when moving from Home/Gallery to Configurator
@@ -54,6 +55,16 @@ export function App() {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
+
+  // Toast Notification State
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'info' | 'error' } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'info' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(prev => prev?.message === message ? null : prev);
+    }, 4500);
+  };
 
   // Load from StorageManager on initial mount
   useEffect(() => {
@@ -158,6 +169,7 @@ export function App() {
       return o;
     });
     handleSaveOrders(updated);
+    showToast('✅ Proof approved successfully! Order moved to quality check & framing.', 'success');
   };
 
   // Customer: Request Revision
@@ -199,6 +211,7 @@ export function App() {
       return o;
     });
     handleSaveOrders(updated);
+    showToast('🔄 Revision requested. Artist notified with your feedback.', 'info');
   };
 
   // Artist: Upload Watermarked Proof
@@ -243,6 +256,7 @@ export function App() {
       return o;
     });
     handleSaveOrders(updated);
+    showToast('🎨 New artwork proof successfully uploaded by artist! Customer notified instantly.', 'success');
   };
 
   // Admin: Assign Artist
@@ -283,6 +297,7 @@ export function App() {
       return o;
     });
     handleSaveOrders(updated);
+    showToast(`📌 Order assigned to ${artistName} and moved to production queue.`, 'success');
   };
 
   // Admin: Staff Override of Face Count (SRS Section 12)
@@ -315,6 +330,7 @@ export function App() {
       return o;
     });
     handleSaveOrders(updated);
+    showToast(`⚖️ Face count verified (${confirmedFaces} faces). Pricing updated.`, 'success');
   };
 
   // Admin: Dispatch Shipping
@@ -347,6 +363,7 @@ export function App() {
       return o;
     });
     handleSaveOrders(updated);
+    showToast(`📦 Order shipped via ${carrier} (Tracking: ${trackingNum})!`, 'success');
   };
 
   // Admin: Add Gallery Item
@@ -437,9 +454,19 @@ export function App() {
           />
         )}
 
+        {currentTab === 'lms' && (
+          <StudentLMSView
+            currentUser={currentUser}
+            onOpenAuth={handleOpenAuth}
+          />
+        )}
+
         {currentTab === 'portal' && (
           <CustomerPortal
-            orders={orders}
+            orders={currentUser && currentUser.role === 'customer'
+              ? orders.filter(o => o.customerEmail.toLowerCase() === currentUser.email.toLowerCase())
+              : orders
+            }
             onApproveProof={handleApproveProof}
             onRequestRevision={handleRequestRevision}
             onNavigateToConfigurator={() => setCurrentTab('configurator')}
@@ -510,6 +537,7 @@ export function App() {
         onClose={() => setIsCheckoutOpen(false)}
         cartItems={cartItems}
         onOrderPlaced={handleOrderPlaced}
+        currentUser={currentUser}
       />
 
       {/* Auth Modal (Sign In / Register with Username & Password) */}
@@ -530,6 +558,28 @@ export function App() {
           else setCurrentTab('portal');
         }}
       />
+
+      {/* Toast Notification System */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-50 animate-bounce duration-300">
+          <div className={`px-5 py-3.5 rounded-2xl shadow-2xl border flex items-center gap-3 text-xs font-bold ${
+            toast.type === 'success' ? 'bg-emerald-900 text-white border-emerald-700' :
+            toast.type === 'info' ? 'bg-blue-900 text-white border-blue-700' :
+            'bg-rose-900 text-white border-rose-700'
+          }`}>
+            <span className="text-base">
+              {toast.type === 'success' ? '✨' : toast.type === 'info' ? '💬' : '⚠️'}
+            </span>
+            <span>{toast.message}</span>
+            <button 
+              onClick={() => setToast(null)}
+              className="ml-3 opacity-70 hover:opacity-100 text-white"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );

@@ -1,4 +1,4 @@
-import { GalleryItem, ArtistProfile, DynamicFormField, PricingConfig, Order, Coupon, MediumStyleItem } from '../types';
+import { GalleryItem, ArtistProfile, DynamicFormField, PricingConfig, Order, Coupon, MediumStyleItem, MediaAsset } from '../types';
 
 export const INITIAL_MEDIUM_STYLES: MediumStyleItem[] = [
   {
@@ -6,7 +6,7 @@ export const INITIAL_MEDIUM_STYLES: MediumStyleItem[] = [
     title: 'Pencil Sketch (Graphite)',
     description: 'Ultra-fine tonal graphite shading, capturing soft expressions, smiles, and fine hair textures.',
     startingPrice: 999,
-    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600',
     tag: 'Most Popular',
   },
   {
@@ -14,7 +14,7 @@ export const INITIAL_MEDIUM_STYLES: MediumStyleItem[] = [
     title: 'Charcoal Masterpiece',
     description: 'Dramatic chiaroscuro contrasts with deep velvety matte blacks and crisp conté highlights.',
     startingPrice: 1499,
-    image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/1541701494587-cb58502866ab/800/600',
     tag: 'High Contrast',
   },
   {
@@ -22,7 +22,7 @@ export const INITIAL_MEDIUM_STYLES: MediumStyleItem[] = [
     title: 'Watercolor Dreams',
     description: 'Atmospheric wet-on-wet watercolor washes, luminous pastel bleeds, ideal for pets & anniversaries.',
     startingPrice: 1899,
-    image: 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/1544967082-d9d25d867d66/800/600',
     tag: 'Soft & Emotive',
   },
   {
@@ -30,7 +30,7 @@ export const INITIAL_MEDIUM_STYLES: MediumStyleItem[] = [
     title: 'Oil on Canvas',
     description: 'Heirloom-grade impasto brushstrokes on stretched Belgian linen, rich vibrant depth and longevity.',
     startingPrice: 2899,
-    image: 'https://images.unsplash.com/photo-1578925518470-4def7a0f08bb?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
     tag: 'Museum Heirloom',
   },
   {
@@ -38,7 +38,7 @@ export const INITIAL_MEDIUM_STYLES: MediumStyleItem[] = [
     title: 'Polychromos Color Pencil',
     description: 'Multi-layered rich oil-based color pencils producing vivid, life-like skin tones and iris luminosity.',
     startingPrice: 1599,
-    image: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/1578301978693-85fa9c0320b9/800/600',
     tag: 'Vivid & Detailed',
   },
   {
@@ -46,7 +46,7 @@ export const INITIAL_MEDIUM_STYLES: MediumStyleItem[] = [
     title: 'Digital Portrait + Archival Print',
     description: 'Digitally hand-painted by master artists and reproduced onto heavy 300gsm acid-free cotton.',
     startingPrice: 1199,
-    image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/1579783900882-c0d3dad7b119/800/600',
     tag: 'Fast Turnaround',
   },
 ];
@@ -134,7 +134,7 @@ export const INITIAL_ARTISTS: ArtistProfile[] = [
     id: 'art-elena',
     name: 'Elena Rostova',
     specialty: ['Pencil Sketch', 'Charcoal Masterpiece', 'Hyper-Realistic Eyes'],
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    avatar: 'https://picsum.photos/seed/1534528741775-53994a69daeb/800/600',
     rating: 4.98,
     completedPortraits: 840,
     activeOrdersCount: 2,
@@ -145,7 +145,7 @@ export const INITIAL_ARTISTS: ArtistProfile[] = [
     id: 'art-marco',
     name: 'Marco Vance',
     specialty: ['Oil on Canvas', 'Royal Renaissance', 'Family Group Portraits'],
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+    avatar: 'https://picsum.photos/seed/1507003211169-0a1dd7228f2d/800/600',
     rating: 4.95,
     completedPortraits: 620,
     activeOrdersCount: 3,
@@ -156,7 +156,7 @@ export const INITIAL_ARTISTS: ArtistProfile[] = [
     id: 'art-ananya',
     name: 'Ananya Sharma',
     specialty: ['Watercolor Dreams', 'Pet Portraits', 'Soft Vignettes'],
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
+    avatar: 'https://picsum.photos/seed/1573496359142-b8d87734a5a2/800/600',
     rating: 4.99,
     completedPortraits: 1120,
     activeOrdersCount: 1,
@@ -175,11 +175,11 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     style: 'Hyper-Realistic Graphite & Carbon',
     description: 'Intricate graphite sketch capturing the timeless bond, soft laughter wrinkles, and gentle hand holding between two generations.',
     images: [
-      'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1582561424760-0321d75e81fa?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600',
+      'https://picsum.photos/seed/1582561424760-0321d75e81fa/800/600'
     ],
-    beforeImage: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=900&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=900&q=80',
+    beforeImage: 'https://picsum.photos/seed/1581579438747-1dc8d17bbce4/800/600',
+    afterImage: 'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600',
     featured: true,
     sortOrder: 1,
     startingPrice: 1499,
@@ -199,11 +199,11 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     style: 'Impasto Impressionism',
     description: 'Custom anniversary oil painting rendered from a smartphone sunset photo, enhancing warmth, light reflection, and lush textures.',
     images: [
-      'https://images.unsplash.com/photo-1578925518470-4def7a0f08bb?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
+      'https://picsum.photos/seed/1577083552431-6e5fd01aa342/800/600'
     ],
-    beforeImage: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1578925518470-4def7a0f08bb?auto=format&fit=crop&w=900&q=80',
+    beforeImage: 'https://picsum.photos/seed/1516589178581-6cd7833ae3b2/800/600',
+    afterImage: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
     featured: true,
     sortOrder: 2,
     startingPrice: 3399,
@@ -223,11 +223,11 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     style: 'Loose Botanical & Spatter',
     description: 'Vibrant and emotive pet portrait with warm amber splashes, delicate whiskers, and atmospheric watercolor pigment bleeds.',
     images: [
-      'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1582201942988-13e60e4556ee?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/seed/1544967082-d9d25d867d66/800/600',
+      'https://picsum.photos/seed/1582201942988-13e60e4556ee/800/600'
     ],
-    beforeImage: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=900&q=80',
+    beforeImage: 'https://picsum.photos/seed/1552053831-71594a27632d/800/600',
+    afterImage: 'https://picsum.photos/seed/1544967082-d9d25d867d66/800/600',
     featured: true,
     sortOrder: 3,
     startingPrice: 1899,
@@ -247,10 +247,10 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     style: 'Deep Chiaroscuro Contrast',
     description: 'High-contrast charcoal piece focusing on dramatic studio lighting, rich velvety blacks, and sculpted facial contours.',
     images: [
-      'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/seed/1541701494587-cb58502866ab/800/600'
     ],
-    beforeImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=900&q=80',
+    beforeImage: 'https://picsum.photos/seed/1506794778202-cad84cf45f1d/800/600',
+    afterImage: 'https://picsum.photos/seed/1541701494587-cb58502866ab/800/600',
     featured: false,
     sortOrder: 4,
     startingPrice: 1499,
@@ -270,10 +270,10 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     style: 'Fine Art Classical Realism',
     description: 'Combined portrait painted from three separate old vintage photos seamlessly merged into a unified family heirloom painting.',
     images: [
-      'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/seed/1579783900882-c0d3dad7b119/800/600'
     ],
-    beforeImage: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=900&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=900&q=80',
+    beforeImage: 'https://picsum.photos/seed/1511895426328-dc8714191300/800/600',
+    afterImage: 'https://picsum.photos/seed/1579783900882-c0d3dad7b119/800/600',
     featured: true,
     sortOrder: 5,
     startingPrice: 4299,
@@ -293,10 +293,10 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     style: 'Vivid Layered Polychromos',
     description: 'Rich, multi-layered color pencil illustration radiating with soft luminous skin tones, vibrant iris depth, and silk textures.',
     images: [
-      'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=900&q=80'
+      'https://picsum.photos/seed/1578301978693-85fa9c0320b9/800/600'
     ],
-    beforeImage: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=900&q=80',
+    beforeImage: 'https://picsum.photos/seed/1494790108377-be9c29b29330/800/600',
+    afterImage: 'https://picsum.photos/seed/1578301978693-85fa9c0320b9/800/600',
     featured: false,
     sortOrder: 6,
     startingPrice: 1599,
@@ -420,8 +420,8 @@ export const INITIAL_COMPARISON_PAIRS: import('../types').ComparisonPair[] = [
     title: 'Graphite Legacy Portrait',
     medium: 'Pencil Sketch (Graphite)',
     artist: 'Elena Rostova',
-    originalImage: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=1200&q=80',
-    artImage: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1200&q=80',
+    originalImage: 'https://picsum.photos/seed/1581579438747-1dc8d17bbce4/800/600',
+    artImage: 'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600',
     description: 'Raw phone photo converted into 300gsm cotton hyper-realistic graphite drawing.',
     faceCount: '2 Faces'
   },
@@ -430,8 +430,8 @@ export const INITIAL_COMPARISON_PAIRS: import('../types').ComparisonPair[] = [
     title: 'Golden Sunset Anniversary Oil',
     medium: 'Oil on Canvas',
     artist: 'Marco Vance',
-    originalImage: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1200&q=80',
-    artImage: 'https://images.unsplash.com/photo-1578925518470-4def7a0f08bb?auto=format&fit=crop&w=1200&q=80',
+    originalImage: 'https://picsum.photos/seed/1516589178581-6cd7833ae3b2/800/600',
+    artImage: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
     description: 'Smartphone beach snap turned into rich textured impressionist oil painting.',
     faceCount: '2 Faces'
   },
@@ -440,10 +440,40 @@ export const INITIAL_COMPARISON_PAIRS: import('../types').ComparisonPair[] = [
     title: 'Vibrant Pet Memorial',
     medium: 'Watercolor Wash',
     artist: 'Ananya Sharma',
-    originalImage: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1200&q=80',
-    artImage: 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=1200&q=80',
+    originalImage: 'https://picsum.photos/seed/1552053831-71594a27632d/800/600',
+    artImage: 'https://picsum.photos/seed/1544967082-d9d25d867d66/800/600',
     description: 'Gentle golden retriever portrait painted with wet-on-wet watercolor washes.',
     faceCount: '1 Pet'
+  }
+];
+
+export const INITIAL_HERO_SLIDES: import('../types').HeroSlide[] = [
+  {
+    id: 'slide-1',
+    title: 'Cherished Family Oil Painting',
+    artist: 'Master Atelier Elena',
+    medium: 'Oil on 100% Linen Canvas',
+    paintedImage: 'https://picsum.photos/seed/1579783900882-c0d3dad7b119/800/600',
+    originalPhoto: 'https://picsum.photos/seed/1511895426328-dc8714191300/800/600',
+    originalLabel: 'Customer Photo'
+  },
+  {
+    id: 'slide-2',
+    title: 'Vintage Couple Graphite Portrait',
+    artist: 'Senior Artist Raghav M.',
+    medium: 'Tonal Pencil on Cotton Paper',
+    paintedImage: 'https://picsum.photos/seed/1582561424760-0321d75e81fa/800/600',
+    originalPhoto: 'https://picsum.photos/seed/1516589178581-6cd7833ae3b2/800/600',
+    originalLabel: 'Anniversary Photo'
+  },
+  {
+    id: 'slide-3',
+    title: 'Bespoke Pet Watercolor Study',
+    artist: 'Illustrator Priya K.',
+    medium: 'Layered Wet-on-Wet Watercolor',
+    paintedImage: 'https://picsum.photos/seed/1544717305-2782549b5136/800/600',
+    originalPhoto: 'https://picsum.photos/seed/1543466835-00a7907e9de1/800/600',
+    originalLabel: 'Original Snap'
   }
 ];
 
@@ -483,7 +513,7 @@ export const INITIAL_ORDERS: Order[] = [
       sourcePhotos: [
         {
           id: 'p-1001',
-          url: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=900&q=80',
+          url: 'https://picsum.photos/seed/1581579438747-1dc8d17bbce4/800/600',
           fileName: 'grandma_and_me_raw.jpg',
           fileSize: '4.2 MB',
           qualityScore: 'excellent',
@@ -530,7 +560,7 @@ export const INITIAL_ORDERS: Order[] = [
       orderId: 'ord-1001',
       artistUserId: 'art-elena',
       artistName: 'Elena Rostova',
-      artistAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+      artistAvatar: 'https://picsum.photos/seed/1534528741775-53994a69daeb/800/600',
       assignedAt: '2026-08-16T15:00:00Z',
       dueAt: '2026-08-20T18:00:00Z',
       status: 'in_progress',
@@ -541,7 +571,7 @@ export const INITIAL_ORDERS: Order[] = [
         id: 'prev-1001-v1',
         orderId: 'ord-1001',
         type: 'preview',
-        url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1200&q=80',
+        url: 'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600',
         filename: 'proof_v1_watermarked.jpg',
         mimeType: 'image/jpeg',
         size: '3.8 MB',
@@ -662,7 +692,7 @@ export const INITIAL_ORDERS: Order[] = [
       sourcePhotos: [
         {
           id: 'p-1002',
-          url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=80',
+          url: 'https://picsum.photos/seed/1516589178581-6cd7833ae3b2/800/600',
           fileName: 'anniversary_sunset_beach.png',
           fileSize: '6.1 MB',
           qualityScore: 'excellent',
@@ -707,7 +737,7 @@ export const INITIAL_ORDERS: Order[] = [
       orderId: 'ord-1002',
       artistUserId: 'art-marco',
       artistName: 'Marco Vance',
-      artistAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+      artistAvatar: 'https://picsum.photos/seed/1507003211169-0a1dd7228f2d/800/600',
       assignedAt: '2026-08-15T10:00:00Z',
       dueAt: '2026-08-18T18:00:00Z',
       status: 'completed',
@@ -717,7 +747,7 @@ export const INITIAL_ORDERS: Order[] = [
         id: 'prev-1002-v1',
         orderId: 'ord-1002',
         type: 'final',
-        url: 'https://images.unsplash.com/photo-1578925518470-4def7a0f08bb?auto=format&fit=crop&w=1200&q=80',
+        url: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
         filename: 'final_approved_art.jpg',
         mimeType: 'image/jpeg',
         size: '5.2 MB',
@@ -749,3 +779,274 @@ export const INITIAL_ORDERS: Order[] = [
     notifications: [],
   }
 ];
+
+export const INITIAL_MEDIA_ASSETS: MediaAsset[] = [
+  // Folder: gallery
+  {
+    id: 'asset-gal-1',
+    name: 'graphite-heritage-portrait.jpg',
+    url: 'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600',
+    folder: 'gallery',
+    fileSize: '3.4 MB',
+    dimensions: '2400 x 3200 px',
+    uploadedAt: '2026-08-01T10:00:00Z',
+    tags: ['pencil', 'portrait', 'classical'],
+    description: 'Tonal graphite sketch on 300gsm cotton paper.'
+  },
+  {
+    id: 'asset-gal-2',
+    name: 'velvet-charcoal-chiaroscuro.jpg',
+    url: 'https://picsum.photos/seed/1541701494587-cb58502866ab/800/600',
+    folder: 'gallery',
+    fileSize: '4.1 MB',
+    dimensions: '2800 x 3600 px',
+    uploadedAt: '2026-08-02T11:30:00Z',
+    tags: ['charcoal', 'high-contrast', 'duo'],
+    description: 'Dramatic chiaroscuro charcoal masterpiece.'
+  },
+  {
+    id: 'asset-gal-3',
+    name: 'heirloom-oil-belgian-linen.jpg',
+    url: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
+    folder: 'gallery',
+    fileSize: '5.8 MB',
+    dimensions: '3000 x 4000 px',
+    uploadedAt: '2026-08-03T14:15:00Z',
+    tags: ['oil', 'canvas', 'heirloom'],
+    description: 'Rich oil impasto strokes on stretched linen.'
+  },
+  {
+    id: 'asset-gal-4',
+    name: 'watercolor-blooms-couple.jpg',
+    url: 'https://picsum.photos/seed/1544967082-d9d25d867d66/800/600',
+    folder: 'gallery',
+    fileSize: '3.9 MB',
+    dimensions: '2400 x 3200 px',
+    uploadedAt: '2026-08-04T09:45:00Z',
+    tags: ['watercolor', 'anniversary', 'soft'],
+    description: 'Luminous wet-on-wet watercolor washes.'
+  },
+  {
+    id: 'asset-gal-5',
+    name: 'polychromos-colored-pencil.jpg',
+    url: 'https://picsum.photos/seed/1578301978693-85fa9c0320b9/800/600',
+    folder: 'gallery',
+    fileSize: '4.5 MB',
+    dimensions: '2600 x 3400 px',
+    uploadedAt: '2026-08-05T16:20:00Z',
+    tags: ['color_pencil', 'vivid', 'pet'],
+    description: 'Vivid polychromos colored pencil portrait.'
+  },
+  
+  // Folder: showcase (Before & After)
+  {
+    id: 'asset-show-1-orig',
+    name: 'customer-reference-photo-1.jpg',
+    url: 'https://picsum.photos/seed/1544005313-94ddf0286df2/800/600',
+    folder: 'showcase',
+    fileSize: '2.1 MB',
+    dimensions: '1800 x 2400 px',
+    uploadedAt: '2026-08-06T10:00:00Z',
+    tags: ['before', 'reference', 'customer-photo'],
+    description: 'Client smartphone photograph for portrait commission.'
+  },
+  {
+    id: 'asset-show-1-art',
+    name: 'charcoal-masterpiece-final.jpg',
+    url: 'https://picsum.photos/seed/1541701494587-cb58502866ab/800/600',
+    folder: 'showcase',
+    fileSize: '4.2 MB',
+    dimensions: '2400 x 3200 px',
+    uploadedAt: '2026-08-06T18:00:00Z',
+    tags: ['after', 'handmade-artwork', 'charcoal'],
+    description: 'Handcrafted master charcoal drawing finished piece.'
+  },
+  {
+    id: 'asset-show-2-orig',
+    name: 'couple-anniversary-photo-raw.jpg',
+    url: 'https://picsum.photos/seed/1522075469751-3a6694fb2f61/800/600',
+    folder: 'showcase',
+    fileSize: '2.8 MB',
+    dimensions: '2000 x 2600 px',
+    uploadedAt: '2026-08-07T11:00:00Z',
+    tags: ['before', 'couple', 'reference'],
+    description: 'Couple original photo snapshot.'
+  },
+  {
+    id: 'asset-show-2-art',
+    name: 'oil-painting-anniversary-heirloom.jpg',
+    url: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
+    folder: 'showcase',
+    fileSize: '5.1 MB',
+    dimensions: '3000 x 4000 px',
+    uploadedAt: '2026-08-07T17:30:00Z',
+    tags: ['after', 'oil', 'canvas'],
+    description: 'Hand-painted museum heirloom oil portrait.'
+  },
+
+  // Folder: styles
+  {
+    id: 'asset-sty-1',
+    name: 'style-pencil-graphite-sample.jpg',
+    url: 'https://picsum.photos/seed/1579783902614-a3fb3927b675/800/600',
+    folder: 'styles',
+    fileSize: '1.8 MB',
+    dimensions: '1200 x 1600 px',
+    uploadedAt: '2026-08-08T08:00:00Z',
+    tags: ['pencil', 'medium-thumb'],
+    description: 'Medium selector thumbnail for pencil sketch.'
+  },
+  {
+    id: 'asset-sty-2',
+    name: 'style-charcoal-sample.jpg',
+    url: 'https://picsum.photos/seed/1541701494587-cb58502866ab/800/600',
+    folder: 'styles',
+    fileSize: '2.0 MB',
+    dimensions: '1200 x 1600 px',
+    uploadedAt: '2026-08-08T08:15:00Z',
+    tags: ['charcoal', 'medium-thumb'],
+    description: 'Medium selector thumbnail for charcoal.'
+  },
+  {
+    id: 'asset-sty-3',
+    name: 'style-watercolor-sample.jpg',
+    url: 'https://picsum.photos/seed/1544967082-d9d25d867d66/800/600',
+    folder: 'styles',
+    fileSize: '2.2 MB',
+    dimensions: '1200 x 1600 px',
+    uploadedAt: '2026-08-08T08:30:00Z',
+    tags: ['watercolor', 'medium-thumb'],
+    description: 'Medium selector thumbnail for watercolor.'
+  },
+  {
+    id: 'asset-sty-4',
+    name: 'style-oil-canvas-sample.jpg',
+    url: 'https://picsum.photos/seed/1578925518470-4def7a0f08bb/800/600',
+    folder: 'styles',
+    fileSize: '2.5 MB',
+    dimensions: '1200 x 1600 px',
+    uploadedAt: '2026-08-08T08:45:00Z',
+    tags: ['oil_canvas', 'medium-thumb'],
+    description: 'Medium selector thumbnail for oil on canvas.'
+  },
+
+  // Folder: banners
+  {
+    id: 'asset-ban-1',
+    name: 'hero-atelier-artisan-workshop.jpg',
+    url: 'https://picsum.photos/seed/1513364776144-60967b0f800f/800/600',
+    folder: 'banners',
+    fileSize: '6.2 MB',
+    dimensions: '3840 x 2160 px',
+    uploadedAt: '2026-08-09T09:00:00Z',
+    tags: ['hero', 'atelier', 'studio'],
+    description: 'Hero background banner showcasing classical atelier workspace.'
+  },
+
+  // Folder: artists
+  {
+    id: 'asset-art-1',
+    name: 'artist-elena-rostova.jpg',
+    url: 'https://picsum.photos/seed/1534528741775-53994a69daeb/800/600',
+    folder: 'artists',
+    fileSize: '850 KB',
+    dimensions: '800 x 800 px',
+    uploadedAt: '2026-08-10T10:00:00Z',
+    tags: ['avatar', 'master-artist'],
+    description: 'Profile avatar for Master Portraitist Elena Rostova.'
+  },
+  {
+    id: 'asset-art-2',
+    name: 'artist-rajesh-nair.jpg',
+    url: 'https://picsum.photos/seed/1500648767791-00dcc994a43e/800/600',
+    folder: 'artists',
+    fileSize: '920 KB',
+    dimensions: '800 x 800 px',
+    uploadedAt: '2026-08-10T10:30:00Z',
+    tags: ['avatar', 'master-artist'],
+    description: 'Profile avatar for Senior Charcoal & Oil Painter Rajesh Nair.'
+  },
+  {
+    id: 'asset-art-3',
+    name: 'artist-marco-vance.jpg',
+    url: 'https://picsum.photos/seed/1507003211169-0a1dd7228f2d/800/600',
+    folder: 'artists',
+    fileSize: '880 KB',
+    dimensions: '800 x 800 px',
+    uploadedAt: '2026-08-10T11:00:00Z',
+    tags: ['avatar', 'master-artist'],
+    description: 'Profile avatar for Classical Oil Specialist Marco Vance.'
+  }
+];
+
+export const INITIAL_LMS_COURSES: import('../types').LMSCourse[] = [
+  {
+    id: 'course-1',
+    title: 'Mastering Graphite & Charcoal Portraits',
+    description: 'Learn professional tonal shading, facial proportion mapping, and hyper-realistic hair and eye detailing from master sketch artists.',
+    instructor: 'Master Artist Rajesh Nair',
+    category: 'Drawing & Sketching',
+    level: 'Beginner',
+    duration: '6 Weeks (24 Video Lessons)',
+    price: 4999,
+    image: 'https://picsum.photos/seed/1582561424760-0321d75e81fa/800/600',
+    lessons: [
+      { id: 'l1', title: 'Introduction to Tonal Values & Pencils (B to 9B)', duration: '45 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Understanding graphite grades and pressure control.' },
+      { id: 'l2', title: 'Facial Proportions & Loomis Method Mapping', duration: '60 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Accurately sketching head angles and landmark features.' },
+      { id: 'l3', title: 'Rendering Realistic Eyes & Eyelashes', duration: '50 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Capturing moisture, iris highlights, and delicate lashes.' },
+      { id: 'l4', title: 'Charcoal Masterclass: Deep Shadows & Highlights', duration: '55 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Using vine charcoal and kneaded erasers for dramatic contrast.' }
+    ]
+  },
+  {
+    id: 'course-2',
+    title: 'Classical Oil Painting Masterclass 101',
+    description: 'Master the traditional indirect layering technique, color mixing, glazing, and brushwork used by Renaissance masters.',
+    instructor: 'Master Atelier Elena Rostova',
+    category: 'Oil & Acrylic',
+    level: 'Intermediate',
+    duration: '8 Weeks (32 Video Lessons)',
+    price: 8999,
+    image: 'https://picsum.photos/seed/1579783900882-c0d3dad7b119/800/600',
+    lessons: [
+      { id: 'ol1', title: 'Setting Up Your Atelier & Palette Organization', duration: '40 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Essential oils, mediums, brushes, and linen stretching.' },
+      { id: 'ol2', title: 'Underpainting & The Imprimatura Layer', duration: '65 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Establishing tonal values before adding color.' },
+      { id: 'ol3', title: 'Skin Tones & Color Mixing Harmony', duration: '75 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Mixing warm and cool flesh tones accurately.' }
+    ]
+  },
+  {
+    id: 'course-3',
+    title: 'Botanical & Portrait Watercolor Techniques',
+    description: 'Explore wet-on-wet blending, controlled washes, transparency, and delicate layering on 300gsm cold-pressed cotton paper.',
+    instructor: 'Illustrator Priya K.',
+    category: 'Watercolor',
+    level: 'All Levels',
+    duration: '5 Weeks (20 Video Lessons)',
+    price: 3999,
+    image: 'https://picsum.photos/seed/1544717305-2782549b5136/800/600',
+    lessons: [
+      { id: 'wl1', title: 'Paper Stretching & Pigment Characteristics', duration: '35 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Straining 300gsm cotton paper and understanding granulation.' },
+      { id: 'wl2', title: 'Wet-on-Wet Gradient Washes', duration: '45 mins', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', description: 'Seamless color transitions and blooming control.' }
+    ]
+  }
+];
+
+export const INITIAL_STUDENT_ENROLLMENTS: import('../types').StudentEnrollment[] = [
+  {
+    id: 'enr-101',
+    studentId: 'usr-demo',
+    studentName: 'Test Student',
+    studentEmail: 'test@test.com',
+    courseId: 'course-1',
+    courseTitle: 'Mastering Graphite & Charcoal Portraits',
+    enrolledAt: '2026-08-15T10:00:00Z',
+    progressPercent: 50,
+    feeTotal: 4999,
+    feePaid: 4999,
+    feeStatus: 'Paid',
+    ledger: [
+      { id: 'led-1', date: '2026-08-15', description: 'Course Enrollment Fee', debit: 4999, credit: 0, balance: 4999, status: 'Pending' },
+      { id: 'led-2', date: '2026-08-15', description: 'Payment Received via UPI / Online', debit: 0, credit: 4999, balance: 0, status: 'Paid' }
+    ]
+  }
+];
+
